@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.baseinfo.GiftMapper" >
+  <resultMap id="BaseResultMap" type="com.po.Gift" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="giftname" property="giftname" jdbcType="VARCHAR" />
+    <result column="giftkind" property="giftkind" jdbcType="VARCHAR" />
+    <result column="giftbudget" property="giftbudget" jdbcType="INTEGER" />
+    <result column="giftpri" property="giftpri" jdbcType="INTEGER" />
+    <result column="gifttempcon" property="gifttempcon" jdbcType="VARCHAR" />    
+    <result column="isvalid" property="isvalid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, giftname, giftkind, giftbudget, giftpri, gifttempcon, isvalid
+  </sql>
+  
+  <!-- 分页模糊查询 -->
+  <select id="vagueFind" resultType="com.po.Gift">
+  	SELECT * FROM gift WHERE isvalid = 1 AND (LOCATE(#{contant,jdbcType=VARCHAR},giftname)
+  	OR LOCATE(#{contant,jdbcType=VARCHAR},giftkind))
+  	<if test="currentpage==0">
+		limit 0, #{pagesize,jdbcType=INTEGER}
+	</if>
+	<if test="currentpage&gt;0">
+		limit ${(currentpage-1)*pagesize},${pagesize}
+	</if>
+  </select>
+  <select id="findAll" resultMap="BaseResultMap">
+  	SELECT * FROM gift WHERE isvalid = 1
+  </select>
+  <update id="delete" parameterType="java.lang.Integer">
+  	UPDATE gift SET isvalid = 2 WHERE id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from gift
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" parameterType="com.po.Gift" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into gift (giftname, giftkind, giftbudget, giftpri, gifttempcon, isvalid
+      )
+    values (#{giftname,jdbcType=VARCHAR}, #{giftkind,jdbcType=VARCHAR}, #{giftbudget,jdbcType=INTEGER}, 
+      #{giftpri,jdbcType=INTEGER}, #{gifttempcon,jdbcType=VARCHAR}, #{isvalid,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.po.Gift" >
+    update gift
+    <set >
+      <if test="giftname != null" >
+        giftname = #{giftname,jdbcType=VARCHAR},
+      </if>
+      <if test="giftkind != null" >
+        giftkind = #{giftkind,jdbcType=VARCHAR},
+      </if>
+      <if test="giftbudget != null" >
+        giftbudget = #{giftbudget,jdbcType=INTEGER},
+      </if>
+      <if test="giftpri != null" >
+        giftpri = #{giftpri,jdbcType=INTEGER},
+      </if>
+      <if test="gifttempcon != null" >
+        gifttempcon = #{gifttempcon,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalid != null" >
+        isvalid = #{isvalid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

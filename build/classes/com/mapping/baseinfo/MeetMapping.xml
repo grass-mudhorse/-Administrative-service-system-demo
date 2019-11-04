@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.baseinfo.MeetMapper" >
+  <resultMap id="BaseResultMap" type="com.po.Meet" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="meetname" property="meetname" jdbcType="VARCHAR" />
+    <result column="meetsize" property="meetsize" jdbcType="INTEGER" />
+    <result column="meetloc" property="meetloc" jdbcType="VARCHAR" />
+    <result column="meetpri" property="meetpri" jdbcType="INTEGER" />
+    <result column="meetcon" property="meetcon" jdbcType="VARCHAR" />
+    <result column="meettempcon" property="meettempcon" jdbcType="VARCHAR" />    
+    <result column="isvalid" property="isvalid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, meetname, meetsize, meetloc, meetpri, meetcon, meettempcon, isvalid
+  </sql>
+  
+  <!-- 分页模糊查询 -->
+  <select id="vagueFind" resultType="com.po.Meet">
+  	SELECT * FROM meet WHERE isvalid = 1 AND (LOCATE(#{contant,jdbcType=VARCHAR},meetname)
+  	OR LOCATE(#{contant,jdbcType=INTEGER},meetsize))
+  	<if test="currentpage==0">
+		limit 0, #{pagesize,jdbcType=INTEGER}
+	</if>
+	<if test="currentpage&gt;0">
+		limit ${(currentpage-1)*pagesize},${pagesize}
+	</if>
+  </select>
+  <select id="findAll" resultMap="BaseResultMap">
+  	SELECT * FROM meet WHERE isvalid = 1
+  </select>
+  <update id="delete" parameterType="java.lang.Integer">
+  	UPDATE meet SET isvalid = 2 WHERE id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from meet
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" parameterType="com.po.Meet" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into meet (meetname, meetsize, meetloc, meetpri, meetcon, meettempcon, isvalid
+      )
+    values (#{meetname,jdbcType=VARCHAR}, #{meetsize,jdbcType=VARCHAR}, #{meetloc,jdbcType=VARCHAR}, 
+      #{meetpri,jdbcType=INTEGER}, #{meetcon,jdbcType=VARCHAR}, #{meettempcon,jdbcType=VARCHAR},#{isvalid,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.po.Meet" >
+    update meet
+    <set >
+      <if test="meetname != null" >
+        meetname = #{meetname,jdbcType=VARCHAR},
+      </if>
+      <if test="meetsize != null" >
+        meetsize = #{meetsize,jdbcType=VARCHAR},
+      </if>
+      <if test="meetloc != null" >
+        meetloc = #{meetloc,jdbcType=VARCHAR},
+      </if>
+      <if test="meetpri != null" >
+        meetpri = #{meetpri,jdbcType=INTEGER},
+      </if>
+      <if test="meetcon != null" >
+        meetcon = #{meetcon,jdbcType=VARCHAR},
+      </if>
+      <if test="meettempcon != null" >
+        meettempcon = #{meettempcon,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalid != null" >
+        isvalid = #{isvalid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

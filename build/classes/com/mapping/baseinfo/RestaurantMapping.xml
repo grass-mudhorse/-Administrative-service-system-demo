@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.baseinfo.RestaurantMapper" >
+  <resultMap id="BaseResultMap" type="com.po.Restaurant" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="restaurantname" property="restaurantname" jdbcType="VARCHAR" />
+    <result column="restaurantsize" property="restaurantsize" jdbcType="INTEGER" />
+    <result column="restaurantnum" property="restaurantnum" jdbcType="INTEGER" />
+    <result column="restaurantloc" property="restaurantloc" jdbcType="VARCHAR" />
+    <result column="restaurantpri" property="restaurantpri" jdbcType="INTEGER" />
+    <result column="restaurantcon" property="restaurantcon" jdbcType="VARCHAR" />
+    <result column="restauranttempcon" property="restauranttempcon" jdbcType="VARCHAR" />    
+    <result column="isvalid" property="isvalid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, restaurantname, restaurantsize, restaurantnum, restaurantloc, restaurantpri, restaurantcon, restauranttempcon, isvalid
+  </sql>
+  
+  <!-- 分页模糊查询 -->
+  <select id="vagueFind" resultType="com.po.Restaurant">
+  	SELECT * FROM restaurant WHERE isvalid = 1 AND (LOCATE(#{contant,jdbcType=VARCHAR},restaurantname)
+  	OR LOCATE(#{contant,jdbcType=VARCHAR},restaurantsize))
+  	<if test="currentpage==0">
+		limit 0, #{pagesize,jdbcType=INTEGER}
+	</if>
+	<if test="currentpage&gt;0">
+		limit ${(currentpage-1)*pagesize},${pagesize}
+	</if>
+  </select>
+  <select id="findAll" resultMap="BaseResultMap">
+  	SELECT * FROM restaurant WHERE isvalid = 1
+  </select>
+  <update id="delete" parameterType="java.lang.Integer">
+  	UPDATE restaurant SET isvalid = 2 WHERE id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from restaurant
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" parameterType="com.po.Restaurant" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into restaurant ( restaurantname, restaurantsize, restaurantnum, restaurantloc, restaurantpri, restaurantcon,restauranttempcon, isvalid
+      )
+    values (#{restaurantname,jdbcType=VARCHAR}, #{restaurantsize,jdbcType=INTEGER}, #{restaurantnum,jdbcType=INTEGER}, #{restaurantloc,jdbcType=VARCHAR},
+      #{restaurantpri,jdbcType=INTEGER}, #{restaurantcon,jdbcType=VARCHAR},#{restauranttempcon,jdbcType=VARCHAR},#{isvalid,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.po.Restaurant" >
+    update restaurant
+    <set >
+      <if test="restaurantname != null" >
+        restaurantname = #{restaurantname,jdbcType=VARCHAR},
+      </if>
+      <if test="restaurantsize != null" >
+        restaurantsize = #{restaurantsize,jdbcType=INTEGER},
+      </if>
+      <if test="restaurantnum != null" >
+        restaurantnum = #{restaurantnum,jdbcType=INTEGER},
+      </if>
+      <if test="restaurantcon != null" >
+        restaurantloc = #{restaurantloc,jdbcType=VARCHAR},
+      </if>
+      <if test="restaurantpri != null" >
+        restaurantpri = #{restaurantpri,jdbcType=INTEGER},
+      </if>
+      <if test="restaurantcon != null" >
+        restaurantcon = #{restaurantcon,jdbcType=VARCHAR},
+      </if>
+      <if test="restauranttempcon != null" >
+        restauranttempcon = #{restauranttempcon,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalid != null" >
+        isvalid = #{isvalid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

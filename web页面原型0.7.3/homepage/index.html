@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>主页</title>
+<!-- for-mobile-apps -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+		function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- //for-mobile-apps -->
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<!-- js -->
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<!-- //js -->
+<!--animate-->
+<link href="css/animate.css" rel="stylesheet" type="text/css" media="all">
+<script src="js/wow.min.js"></script>
+	<script>
+		 new WOW().init();
+	</script>
+<!--//end-animate-->
+<link href='http://fonts.googleapis.com/css?family=Kanit:400,100,100italic,200,200italic,300,300italic,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+<script type="text/javascript" src="js/numscroller-1.0.js"></script>
+<!-- start-smoth-scrolling -->
+<script type="text/javascript" src="js/move-top.js"></script>
+<script type="text/javascript" src="js/easing.js"></script>
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		$(".scroll").click(function(event){		
+			event.preventDefault();
+			$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+		});
+	});
+</script>
+<!-- start-smoth-scrolling -->
+<script src="js/responsiveslides.min.js"></script>
+
+</head>
+<body>
+<!-- header -->
+<div class="header wow zoomIn w3l">
+	<div class="container">
+		<div class="header_left">
+			<ul>
+				<li><a href="mailto:info@example.com"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>info@example.com</a></li>
+				<li><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>+123 456 7890</li>
+			</ul>
+		</div>
+
+		<div class="header_right">
+			<h4>
+			<a href="http://localhost:8080/AMS/indexController/tologin.do"><span class="label label-primary">登录</span></a>
+			</h4>
+		</div>
+		
+		<div class="clearfix"></div>
+	</div>
+</div>
+<!-- //header -->
+<!-- banner -->
+<div class="banner w3ls">
+	<div class="container">
+		<div class="header-nav wow fadeInUp animated" data-wow-delay=".5s">
+			<nav class="navbar navbar-default">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header logo">
+								<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+									<span class="sr-only">Toggle navigation</span>
+									<span class="icon-bar"></span>
+									<span class="icon-bar"></span>
+									<span class="icon-bar"></span>
+								</button>
+								<h1>
+									<a class="navbar-brand" href="index.html"><img src="images/logo.png" alt=" " /></a>
+								</h1>
+								
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse nav-wil" id="bs-example-navbar-collapse-1">
+								<nav class="cl-effect-1">
+									<ul class="nav navbar-nav ">
+										<li><a class="active" href="index.html">主页</a></li>
+										<li><a href="about.html">关于</a></li>
+										<li><a href="contact.html">加入我们</a></li>
+										<li><a href="gallery.html">成功案例</a></li>
+										<li><a href="services.html">服务内容</a></li>
+									</ul>
+								</nav>
+				</div>
+				<!-- /navbar-collapse -->
+			</nav>
+		</div>
+		<div class="clearfix"></div>
+		<div class="banner-info wow bounceInDown" data-wow-duration="1.5s" data-wow-delay="0s">
+			<div  id="top" class="callbacks_container">
+				<ul class="rslides" id="slider3">
+					<li>
+						<div class="col-md-5 ban-left">
+							<img src="images/p10.jpg" alt=" "/>
+						</div>
+						<div class="col-md-7 ban-right">
+							<h3>我们有最好的公司会务策划团体</h3>
+							<p>大型会议策划、会场预订、会务服务工作。酒店住宿、用餐、观光导预定的服务工作
+							</p>
+							<a class="hvr-rectangle-out" href="about.html">查看更多</a>
+						</div>
+						<div class="clearfix"></div>
+					</li>
+					<li>
+						<div class="col-md-5 ban-left">
+							<img src="images/p3.jpg" alt=" "/>
+						</div>
+						<div class="col-md-7 ban-right">
+							<h3>我们提供最个性化的服务</h3>
+							<p>办公车辆的长期租用、临时租用服务工作，办公用品、耗材、办公家具等代采购工作。
+							小团体接待（观光、用餐、住宿）服务工作</p>
+							<a class="hvr-rectangle-out" href="about.html">查看更多</a>
+						</div>
+						<div class="clearfix"></div>
+					</li>
+				</ul>
+			</div>
+			<div class="clearfix"></div>
+			<script>
+						// You can also use "$(window).load(function() {"
+						$(function () {
+						 // Slideshow 4
+						$("#slider3").responsiveSlides({
+							auto: true,
+							pager: false,
+							nav: true,
+							speed: 500,
+							namespace: "callbacks",
+							before: function () {
+						$('.events').append("<li>before event fired.</li>");
+						},
+						after: function () {
+							$('.events').append("<li>after event fired.</li>");
+							}
+							});
+						});
+			</script>
+
+		</div>
+	</div>
+</div>
+<!-- //banner -->
+<!-- about -->
+<div class="welcome all_pad wthree">
+	<div class="container">
+		<h3 class="title">欢迎光临亿诺行政服务有限公司<span></span></h3>
+		<div class="wel-grids">
+			<div class="col-md-6 wel-grid-one bor_one text-center wow bounceInUp" data-wow-duration="1.5s" data-wow-delay="0s">
+				<div class="wel-img">
+					<img src="images/111.png" alt=" " />
+				</div>
+				<h4>公司会务</h4>
+				<p>公司与诸多酒店、会议场地、办公用品供应商、办公家具供应商等建立了合作关系，
+				
+				</p>
+			</div>
+			<div class="col-md-6 wel-grid-one bor_two text-center wow bounceInUp" data-wow-duration="1.5s" data-wow-delay="0.1s">
+				<div class="wel-img">
+					<img src="images/222.png" alt=" " />
+				</div>
+				<h4>公司接待</h4>
+				<p>办公车辆的长期租用、临时租用。公司培养了高素质的服务团队，以专业的水准服务于客户
+
+				</p>
+			</div>
+			<div class="col-md-6 wel-grid-one bor_three text-center wow bounceInUp" data-wow-duration="1.5s" data-wow-delay="0.2s">
+				<div class="wel-img">
+					<img src="images/333.png" alt=" " />
+				</div>
+				<h4>公司采购</h4>
+				<p>办公用品、耗材、办公家具等代采购工作。确保以优惠的价格服务于客户</p>
+			</div>
+			<div class="col-md-6 wel-grid-one bor_four text-center wow bounceInUp" data-wow-duration="1.5s" data-wow-delay="0.3s">
+				<div class="wel-img">
+					<img src="images/444.png" alt=" " />
+				</div>
+				<h4>个性活动定制服务工作 </h4>
+				<p>公司制定了详细的工作流程，权责清晰，一目了然、让客户安心享受服务。</p>
+			</div>
+			<div class="clearfix"></div>
+			<div class="dot">
+				<span></span>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- //about -->
+<div class="tlinks">Collect from <a href="http://www.cssmoban.com/" >企业网站模板</a></div>
+<!-- content -->
+<div class="content all_pad agile">
+	<div class="container">
+		<h3 class="title">关于我们<span></span></h3>
+		<div class="content_grids">
+			<div class="col-md-3 capabil-grid wow fadeInDown animated animated text-center" data-wow-delay="0.4s">
+				<div class='numscroller numscroller-big-bottom' data-slno='1' data-min='0' data-max='57' data-delay='.5' data-increment="1">1</div>
+				<a href="awards.html">获得的奖项</a>	
+			</div>
+			<div class="col-md-3 capabil-grid mar-top wow fadeInUp animated animated text-center" data-wow-delay="0.4s">
+				<div class='numscroller numscroller-big-bottom' data-slno='1' data-min='0' data-max='970' data-delay='.5' data-increment="1">1</div>
+				<a href="partner.html">合作的客户</a>	
+			</div>
+			<div class="col-md-3 capabil-grid mar-top wow fadeInDown animated animated text-center" data-wow-delay="0.4s">
+				<div class='numscroller numscroller-big-bottom' data-slno='1' data-min='0' data-max='980' data-delay='.5' data-increment="1">1</div>				
+				<a href="gallery.html">完成的策划</a>
+			</div>
+			<div class="col-md-3 capabil-grid wow fadeInUp animated animated text-center" data-wow-delay="0.4s">
+				<div class='numscroller numscroller-big-bottom' data-slno='1' data-min='0' data-max='800' data-delay='.5' data-increment="1">1</div>
+				<a href="modelplan.html">策划模板方案</a>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+</div>
+<!-- //content -->
+<!-- content -->
+<div class="process all_pad agileits">
+	<div class="container">
+		<h3 class="title">我们的工作流程<span></span></h3>
+		<div class="process_grids wow fadeIn animated animated" data-wow-delay="0.1s" data-wow-duration="0s">
+			<div class="col-md-5 process_left">
+				<div class="port-2 effect-1">
+                	<div class="image-box">
+                    	<img class="img-responsive" src="images/p6.jpg" alt="Image-1">
+                    </div>
+                    <div class="text-desc">
+                    	<h4>亿诺行政服务</h4>
+                        <p>公司诞生于大连，服务于大连，致力于做好大连企事业单位、小团体的行政保障工作
+						</p>
+                    </div>
+                </div>
+			</div>
+			<div class="col-md-7 process_right">
+				<h2>为您提供最好的公司行政服务</h2>
+				<p>亿诺行政服务有限公司，诞生于大连，服务于大连，致力于做好大连企事业单位、小
+					团体的行政保障工作。
+				</p>
+				<div class="pro_grids">	
+					<div class="col-md-3 pro_left pro_spa text-center">
+						<h5>1</h5>
+						<h6>客户提出需求</h6>
+					</div>
+					<div class="col-md-3 pro_left pro_spa text-center">
+						<h5>2</h5>
+						<h6>专员讨论分析</h6>
+					</div>
+					<div class="col-md-3 pro_left pro_spa text-center">
+						<h5>3</h5>
+						<h6>业务员策划计划</h6>
+					</div>
+					<div class="col-md-3 pro_left text-center">
+						<h5>4</h5>
+						<h6>一线员工实施</h6>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+</div>	
+<!-- //process -->
+<!-- feed -->
+<div class="feed w3 all_pad wow zoomIn" data-wow-duration="1.5s" data-wow-delay="0.1s">
+	<div class="container">
+		<h3 class="title">客户反馈<span></span></h3>
+		<div class="flex-slider">
+			<ul id="flexiselDemo1">			
+				<li>
+					<div class="laptop">
+						<div class="col-md-4 team-left">
+							<img class="img-responsive" src="images/client1.jpg" alt=" " />
+						</div>
+						<div class="col-md-8 team-right">
+							<p>服务很好，耐心又靠谱，值得推荐</p>
+							<h5>Federica</h5>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+				</li>
+				<li>
+					<div class="laptop">
+						<div class="col-md-4 team-left">
+							<img class="img-responsive" src="images/client2.jpg" alt=" " />
+						</div>
+						<div class="col-md-8 team-right">
+							<p>给设计师点个赞，总是能把握业主的要求，设计的风格也是当代年轻人喜欢的，公司给的预算报价很透明</p>
+							<h5>Thompson</h5>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+				</li>
+			</ul>
+			<script type="text/javascript">
+							$(window).load(function() {
+								$("#flexiselDemo1").flexisel({
+									visibleItems: 2,
+									animationSpeed: 1000,
+									autoPlay: true,
+									autoPlaySpeed: 3000,    		
+									pauseOnHover: true,
+									enableResponsiveBreakpoints: true,
+									responsiveBreakpoints: { 
+										portrait: { 
+											changePoint:480,
+											visibleItems: 1
+										}, 
+										landscape: { 
+											changePoint:640,
+											visibleItems: 1
+										},
+										tablet: { 
+											changePoint:991,
+											visibleItems: 1
+										}
+									}
+								});
+								
+							});
+			</script>
+			<script type="text/javascript" src="js/jquery.flexisel.js"></script>
+		</div>
+	</div>
+</div>		
+<!-- //feed -->
+<!-- contact -->
+<div class="contact w3agile wow fadeIn animated animated" data-wow-delay="0.1s" data-wow-duration="0s">
+	<div class="container">
+		<h3 class="title">联系我们<span></span></h3>
+		<div class="contact_grids">
+			<form action="#" method="post">
+				<div class="col-md-6 contact_left">
+					<div class="cont_bor">
+						<i class="glyphicon glyphicon-user"> </i><input type="text" value="姓名" name="姓名" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}" required="">
+						<div class="clearfix"></div>
+					</div>
+					<div class="cont_bor">
+						<i class="glyphicon glyphicon-envelope"> </i><input type="email" value="邮箱" name="邮箱" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
+						<div class="clearfix"></div>
+					</div>
+					<div class="cont_bor">
+						<i class="glyphicon glyphicon-earphone"></i>  <input type="text" value="电话" name="电话" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Mobile';}" required="">					
+						<div class="clearfix"></div>
+					</div>
+				</div>
+				<div class="col-md-6 contact_right">
+					<div class="cont_bor">
+						<i class="glyphicon glyphicon-globe"></i><input type="text" value="地址" name="地址" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Website';}" required="">
+						<div class="clearfix"></div>
+					</div>
+					<div class="cont_bor">
+						<i class="glyphicon glyphicon-edit"></i><textarea name="留言" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message...';}" required>留言</textarea>
+						<div class="clearfix"></div>
+					</div>
+					<input type="submit" value="确认提交" >
+					<div class="clearfix"></div>
+				</div>
+				<div class="clearfix"></div>
+			</form>
+		</div>
+		<div class="footer agileinfo text-center">
+			<p>Copyright &copy; 2016.Company name All rights reserved.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="亿诺行政服务">亿诺行政服务</a> - Collect from <a href="http://www.cssmoban.com/" title="亿诺行政服务" target="_blank">亿诺行政服务</a></p>
+		</div>	
+	</div>
+</div>
+<!-- //contact -->
+
+<!-- smooth scrolling -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+		/*
+			var defaults = {
+			containerID: 'toTop', // fading element id
+			containerHoverID: 'toTopHover', // fading element hover id
+			scrollSpeed: 1200,
+			easingType: 'linear' 
+			};
+		*/								
+		$().UItoTop({ easingType: 'easeOutQuart' });
+		});
+	</script>
+	<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+<!-- //smooth scrolling -->
+<script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.ccf.PEfileMapper">
+ 
+ <resultMap id="BaseResultMap" type="com.po.Filetable">
+ <id column="id" property="id"  jdbcType="INTEGER"/>
+ <result column="category" property="category"  jdbcType="VARCHAR"/>
+ <result column="createrid" property="createrid"  jdbcType="INTEGER"/>
+ <result column="url" property="url" jdbcType="VARCHAR"/>
+ <result column="projectid" property="projectid" jdbcType="INTEGER"/>
+ <result column="filecheck" property="filecheck"  jdbcType="VARCHAR"/>
+ <result column="date" property="date" jdbcType="VARCHAR"/>
+ <result column="isvalid" property="isvalid" jdbcType="INTEGER"/>
+ </resultMap>
+ 
+
+ 
+ <sql id="Base_Column_List">
+ id,category,createrid,url,projectid,filecheck,date,isvalid
+ </sql>
+ 
+ 
+  <select id="vagueFind" resultType="com.po.Filetable">
+  	SELECT * FROM filetable WHERE isvalid = 1 AND (LOCATE(#{contant,jdbcType=INTEGER},id)
+  	OR LOCATE(#{contant,jdbcType=INTEGER},projectid))
+  	<if test="currentpage==0">
+		limit 0, #{pagesize,jdbcType=INTEGER}
+	</if>
+	<if test="currentpage&gt;0">
+		limit ${(currentpage-1)*pagesize},${pagesize}
+	</if>
+  </select>
+  
+  
+  <select id="findAll" resultMap="BaseResultMap">
+  	SELECT * FROM filetable WHERE isvalid = 1
+  </select>
+  
+  
+<update id="delete" parameterType="java.lang.Integer">
+  	UPDATE filetable SET isvalid = 2 WHERE id = #{id,jdbcType=INTEGER}
+</update>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from filetable
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  
+  
+  
+  <insert id="insert" parameterType="com.po.Filetable" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into Filetable (id,category,createrid,url,projectid,filecheck,date,isvalid)
+ values
+ (#{id,jdbcType=INTEGER},#{category,jdbcType=VARCHAR},
+ #{createrid,jdbcType=INTEGER},#{url,jdbcType=VARCHAR},#{projectid,jdbcType=INTEGER},
+ #{filecheck,jdbcType=VARCHAR},#{date,jdbcType=VARCHAR},#{isvalid,jdbcType=INTEGER})
+  </insert>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.po.Filetable" >
+    update filetable
+    <set >
+      
+      <if test="category != null" >
+        category = #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="createrid != null" >
+        createrid = #{createrid,jdbcType=INTEGER},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="projectid != null" >
+        projectid = #{projectid,jdbcType=INTEGER},
+      </if>
+      <if test="filecheck != null" >
+        filecheck = #{filecheck,jdbcType=VARCHAR},
+      </if>
+      <if test="date!= null" >
+        date = #{date,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalid != null" >
+        isvalid = #{isvalid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+ 
+ 
+</mapper>

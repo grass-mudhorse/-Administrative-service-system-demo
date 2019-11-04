@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+xmlns:mvc="http://www.springframework.org/schema/mvc" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:p="http://www.springframework.org/schema/p" 
+xmlns:context="http://www.springframework.org/schema/context"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.1.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
+	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
+	<context:component-scan base-package="com.web">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	<!-- 日期转换  必须放在<mvc:annotation-driven />前面 -->
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"></bean>
+	<mvc:annotation-driven />
+	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->  
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
+	<!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->  
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" >  
+        <property name="prefix" value="/jsp"></property>  
+        <property name="suffix" value=".jsp"></property>  
+    </bean>  
+    
+    <!-- 上传文件，文件流转换 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    	<!-- 1024*200即200k，最大文件设置20mb -->
+    	<property name="maxUploadSize" value="20480000"></property>
+    	<!-- resolveLazily属性启用是为了推迟文件解析，以便在Action中捕获文件大小异常 -->
+    	<property name="resolveLazily" value="true"></property>
+    </bean>
+    
+    <mvc:interceptors>  
+	    <mvc:interceptor>  
+	    	<!-- 需要拦截的配置 -->
+	        <mvc:mapping path="/EmployeeController/**" />
+	        <mvc:mapping path="/CarController/**" />
+	        <mvc:mapping path="/GiftController/**" />
+	        <mvc:mapping path="/HotelController/**" />
+	        <mvc:mapping path="/MeetController/**" />
+	        <mvc:mapping path="/PlaceController/**" />
+	        <mvc:mapping path="/RestaurantController/**" />
+	        <mvc:mapping path="/TourController/**" />
+	        <mvc:mapping path="/WorkController/**" />
+	        <mvc:mapping path="/ResourceController/**" />
+	        <mvc:mapping path="/RoleController/**" />
+	        <mvc:mapping path="/userinfoController/**"/>
+	        <mvc:mapping path="/ClientController/**" />
+	        <mvc:mapping path="/ClientfileController/**" />	
+	        <mvc:mapping path="/AEfileController/**" />	
+	        <mvc:mapping path="/HMfileController/**" />	
+	        <mvc:mapping path="/PEfileController/**" />	
+	        <mvc:mapping path="/PMfileController/**" />
+	        <mvc:mapping path="/ClientprojectController"/>
+	        <mvc:mapping path="/AEprojectController"/>
+	        <mvc:mapping path="/HMprojectController"/>
+	        <mvc:mapping path="/PEprojectController"/>
+	        <mvc:mapping path="/PMprojectController"/>
+	        <mvc:mapping path="/ClientCommentController"/>
+	        <mvc:mapping path="/HMCommentController"/>		        
+	        <!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->  
+	        <bean class="com.core.interceptor.CommonInterceptor" />
+	    </mvc:interceptor>  
+	</mvc:interceptors>  
+</beans>

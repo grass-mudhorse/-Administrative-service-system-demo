@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.workstation.ClientprojectMapper" >
+
+  <resultMap id="BaseResultMap" type="com.po.Project" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="headmanagerid" property="headmanagerid" jdbcType="INTEGER" />
+    <result column="headmanageraccount" property="headmanageraccount" jdbcType="VARCHAR" />
+    <result column="headmanagerphone" property="headmanagerphone" jdbcType="VARCHAR" />
+    <result column="projectrequireid" property="projectrequireid" jdbcType="INTEGER" />
+    <result column="projectloiid" property="projectloiid" jdbcType="INTEGER" />
+    <result column="feasibilityreportid" property="feasibilityreportid" jdbcType="INTEGER" />
+    <result column="offerlistid" property="offerlistid" jdbcType="INTEGER" />
+    <result column="contractid" property="contractid" jdbcType="INTEGER" />
+    <result column="project" property="project" jdbcType="VARCHAR" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="flag" property="flag" jdbcType="VARCHAR" />   
+    <result column="createdate" property="createdate" jdbcType="VARCHAR" />       
+    <result column="isvalid" property="isvalid" jdbcType="INTEGER" />
+    
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, headmanagerid, headmanageraccount, headmanagerphone,projectrequireid, projectloiid, feasibilityreportid, offerlistid,
+    contractid, project, account, flag, createdate, isvalid
+  </sql>
+  
+  <!-- 分页模糊查询 -->
+  <select id="vagueFind" resultType="com.po.Project">
+  	SELECT * FROM project WHERE isvalid = 1 AND (LOCATE(#{contant,jdbcType=VARCHAR},account)
+  	OR LOCATE(#{contant,jdbcType=INTEGER},projectrequireid))
+  	<if test="currentpage==0">
+		limit 0, #{pagesize,jdbcType=INTEGER}
+	</if>
+	<if test="currentpage&gt;0">
+		limit ${(currentpage-1)*pagesize},${pagesize}
+	</if>
+  </select>
+  
+  
+  <select id="findAll" resultMap="BaseResultMap">
+  	SELECT * FROM project WHERE isvalid = 1
+  </select>
+  
+  
+  <update id="delete" parameterType="java.lang.Integer">
+  	UPDATE project SET isvalid = 2 WHERE id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from project
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  
+  
+  <insert id="insert" parameterType="com.po.Project" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into project (headmanagerid, headmanageraccount, headmanagerphone,projectrequireid, projectloiid, feasibilityreportid, offerlistid,
+    contractid, project, account, flag, createdate, isvalid)
+    values (#{headmanagerid,jdbcType=INTEGER}, #{headmanageraccount,jdbcType=VARCHAR}, #{headmanagerphone,jdbcType=VARCHAR}, 
+      #{projectrequireid,jdbcType=INTEGER}, #{projectloiid,jdbcType=INTEGER}, #{feasibilityreportid,jdbcType=INTEGER},#{offerlistid,jdbcType=INTEGER},
+	  #{contractid,jdbcType=INTEGER}, #{project,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR},#{flag,jdbcType=VARCHAR},
+	  #{createdate,jdbcType=VARCHAR}, #{isvalid,jdbcType=INTEGER}
+      )
+  </insert>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.po.Project" >
+    update project
+    <set >
+      <if test="headmanagerid != null" >
+        headmanagerid = #{headmanagerid,jdbcType=INTEGER},
+      </if>
+      <if test="headmanageraccount != null" >
+        headmanageraccount = #{headmanageraccount,jdbcType=VARCHAR},
+      </if>
+      <if test="headmanagerphone != null" >
+        headmanagerphone = #{headmanagerphone,jdbcType=VARCHAR},
+      </if>
+      <if test="projectrequireid != null" >
+        projectrequireid = #{projectrequireid,jdbcType=INTEGER},
+      </if>
+      <if test="projectloiid != null" >
+        projectloiid = #{projectloiid,jdbcType=INTEGER},
+      </if>
+      <if test="feasibilityreportid != null" >
+        feasibilityreportid = #{feasibilityreportid,jdbcType=INTEGER},
+      </if>      
+      <if test="offerlistid != null" >
+        offerlistid = #{offerlistid,jdbcType=INTEGER},
+      </if>      
+      <if test="contractid != null" >
+        contractid = #{contractid,jdbcType=INTEGER},
+      </if>      
+      <if test="project != null" >
+        project = #{project,jdbcType=VARCHAR},
+      </if>            
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        createdate = #{createdate,jdbcType=VARCHAR},
+      </if>              
+      <if test="isvalid != null" >
+        isvalid = #{isvalid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

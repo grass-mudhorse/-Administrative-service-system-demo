@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.baseinfo.PlaceMapper" >
+  <resultMap id="BaseResultMap" type="com.po.Place" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="placename" property="placename" jdbcType="VARCHAR" />
+    <result column="placesize" property="placesize" jdbcType="INTEGER" />
+    <result column="placeloc" property="placeloc" jdbcType="VARCHAR" />
+    <result column="placepri" property="placepri" jdbcType="INTEGER" />
+    <result column="placecon" property="placecon" jdbcType="VARCHAR" />
+    <result column="placetempcon" property="placetempcon" jdbcType="VARCHAR" />
+    <result column="isvalid" property="isvalid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, placename, placesize, placeloc, placepri, placecon, placetempcon, isvalid
+  </sql>
+  
+  <!-- 分页模糊查询 -->
+  <select id="vagueFind" resultType="com.po.Place">
+  	SELECT * FROM place WHERE isvalid = 1 AND (LOCATE(#{contant,jdbcType=VARCHAR},placename)
+  	OR LOCATE(#{contant,jdbcType=INTEGER},placesize))
+  	<if test="currentpage==0">
+		limit 0, #{pagesize,jdbcType=INTEGER}
+	</if>
+	<if test="currentpage&gt;0">
+		limit ${(currentpage-1)*pagesize},${pagesize}
+	</if>
+  </select>
+  <select id="findAll" resultMap="BaseResultMap">
+  	SELECT * FROM place WHERE isvalid = 1
+  </select>
+  <update id="delete" parameterType="java.lang.Integer">
+  	UPDATE place SET isvalid = 2 WHERE id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from place
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" parameterType="com.po.Place" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into place (placename, placesize, placeloc, placepri, placecon, placetempcon, isvalid
+      )
+    values (#{placename,jdbcType=VARCHAR}, #{placesize,jdbcType=INTEGER}, #{placeloc,jdbcType=VARCHAR}, 
+      #{placepri,jdbcType=INTEGER}, #{placecon,jdbcType=VARCHAR},#{placetempcon,jdbcType=VARCHAR},#{isvalid,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.po.Place" >
+    update place
+    <set >
+      <if test="placename != null" >
+        placename = #{placename,jdbcType=VARCHAR},
+      </if>
+      <if test="placesize != null" >
+        placesize = #{placesize,jdbcType=INTEGER},
+      </if>
+      <if test="placeloc != null" >
+        placeloc = #{placeloc,jdbcType=VARCHAR},
+      </if>
+      <if test="placepri != null" >
+        placepri = #{placepri,jdbcType=INTEGER},
+      </if>
+      <if test="placecon != null" >
+        placecon = #{placecon,jdbcType=VARCHAR},
+      </if>
+      <if test="placetempcon != null" >
+        placetempcon = #{placetempcon,jdbcType=VARCHAR},
+      </if>      
+      <if test="isvalid != null" >
+        isvalid = #{isvalid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

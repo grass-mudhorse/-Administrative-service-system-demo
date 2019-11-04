@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.baseinfo.HotelMapper" >
+  <resultMap id="BaseResultMap" type="com.po.Hotel" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="hotelname" property="hotelname" jdbcType="VARCHAR" />
+    <result column="hotelsize" property="hotelsize" jdbcType="INTEGER" />
+    <result column="hotelnum" property="hotelnum" jdbcType="INTEGER" />
+    <result column="hotelloc" property="hotelloc" jdbcType="VARCHAR" />
+    <result column="hotelpri" property="hotelpri" jdbcType="INTEGER" />
+    <result column="hotelcon" property="hotelcon" jdbcType="VARCHAR" />
+    <result column="hoteltempcon" property="hoteltempcon" jdbcType="VARCHAR" />    
+    <result column="isvalid" property="isvalid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, hotelname, hotelsize, hotelnum, hotelloc, hotelpri, hotelcon, hoteltempcon, isvalid
+  </sql>
+  
+  <!-- 分页模糊查询 -->
+  <select id="vagueFind" resultType="com.po.Hotel">
+  	SELECT * FROM hotel WHERE isvalid = 1 AND (LOCATE(#{contant,jdbcType=VARCHAR},hotelname)
+  	OR LOCATE(#{contant,jdbcType=INTEGER},hotelsize))
+  	<if test="currentpage==0">
+		limit 0, #{pagesize,jdbcType=INTEGER}
+	</if>
+	<if test="currentpage&gt;0">
+		limit ${(currentpage-1)*pagesize},${pagesize}
+	</if>
+  </select>
+  <select id="findAll" resultMap="BaseResultMap">
+  	SELECT * FROM hotel WHERE isvalid = 1
+  </select>
+  <update id="delete" parameterType="java.lang.Integer">
+  	UPDATE hotel SET isvalid = 2 WHERE id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from hotel
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" parameterType="com.po.Hotel" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into hotel ( hotelname, hotelsize, hotelnum, hotelloc, hotelpri, hotelcon, hoteltempcon, isvalid
+      )
+    values (#{hotelname,jdbcType=VARCHAR}, #{hotelsize,jdbcType=INTEGER}, #{hotelnum,jdbcType=INTEGER}, #{hotelloc,jdbcType=VARCHAR},
+      #{hotelpri,jdbcType=INTEGER}, #{hotelcon,jdbcType=VARCHAR},#{hoteltempcon,jdbcType=VARCHAR},#{isvalid,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.po.Hotel" >
+    update hotel
+    <set >
+      <if test="hotelname != null" >
+        hotelname = #{hotelname,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelsize != null" >
+        hotelsize = #{hotelsize,jdbcType=INTEGER},
+      </if>
+      <if test="hotelnum != null" >
+        hotelnum = #{hotelnum,jdbcType=INTEGER},
+      </if>
+      <if test="hotelcon != null" >
+        hotelloc = #{hotelloc,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelpri != null" >
+        hotelpri = #{hotelpri,jdbcType=INTEGER},
+      </if>
+      <if test="hotelcon != null" >
+        hotelcon = #{hotelcon,jdbcType=VARCHAR},
+      </if>
+      <if test="hoteltempcon != null" >
+        hoteltempcon = #{hoteltempcon,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalid != null" >
+        isvalid = #{isvalid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

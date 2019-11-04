@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.baseinfo.CarMapper" >
+  <resultMap id="BaseResultMap" type="com.po.Car" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="carname" property="carname" jdbcType="VARCHAR" />
+    <result column="carcol" property="carcol" jdbcType="VARCHAR" />
+    <result column="cartime" property="cartime" jdbcType="INTEGER" />
+    <result column="carpri" property="carpri" jdbcType="INTEGER" />
+    <result column="carcon" property="carcon" jdbcType="VARCHAR" />
+    <result column="cartempcon" property="cartempcon" jdbcType="VARCHAR" />   
+    <result column="isvalid" property="isvalid" jdbcType="INTEGER" />
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, carname, carcol, cartime, carpri, carcon, cartempcon, isvalid
+  </sql>
+  
+  <!-- 分页模糊查询 -->
+  <select id="vagueFind" resultType="com.po.Car">
+  	SELECT * FROM car WHERE isvalid = 1 AND (LOCATE(#{contant,jdbcType=VARCHAR},carname)
+  	OR LOCATE(#{contant,jdbcType=VARCHAR},carcol))
+  	<if test="currentpage==0">
+		limit 0, #{pagesize,jdbcType=INTEGER}
+	</if>
+	<if test="currentpage&gt;0">
+		limit ${(currentpage-1)*pagesize},${pagesize}
+	</if>
+  </select>
+  <select id="findAll" resultMap="BaseResultMap">
+  	SELECT * FROM car WHERE isvalid = 1
+  </select>
+  <update id="delete" parameterType="java.lang.Integer">
+  	UPDATE car SET isvalid = 2 WHERE id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from car
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" parameterType="com.po.Car" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into car (carname, carcol, cartime, carpri, carcon, cartempcon, isvalid
+      )
+    values (#{carname,jdbcType=VARCHAR}, #{carcol,jdbcType=VARCHAR}, #{cartime,jdbcType=INTEGER}, 
+      #{carpri,jdbcType=INTEGER}, #{carcon,jdbcType=VARCHAR}, #{cartempcon,jdbcType=VARCHAR},#{isvalid,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.po.Car" >
+    update car
+    <set >
+      <if test="carname != null" >
+        carname = #{carname,jdbcType=VARCHAR},
+      </if>
+      <if test="carcol != null" >
+        carcol = #{carcol,jdbcType=VARCHAR},
+      </if>
+      <if test="cartime != null" >
+        cartime = #{cartime,jdbcType=INTEGER},
+      </if>
+      <if test="carpri != null" >
+        carpri = #{carpri,jdbcType=INTEGER},
+      </if>
+      <if test="carcon != null" >
+        carcon = #{carcon,jdbcType=VARCHAR},
+      </if>
+      <if test="cartempcon != null" >
+        cartempcon = #{cartempcon,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalid != null" >
+        isvalid = #{isvalid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
